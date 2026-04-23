@@ -70,7 +70,7 @@ def evaluate(color):
 		
 	eval = 0
 	for i in 0..2N-1:
-		eval += L2_act * w1[i]
+		eval += L2_act[i] * w1[i]
 	
 	eval /= Qa
 	eval += b1
