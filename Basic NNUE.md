@@ -52,7 +52,7 @@ $b1 \mathrel{*}= Q_a \cdot Q_b$
 And the formula becomes
 $$o = \frac{\text{clamp}(v \cdot w0 + b0, 0, Q_a)^2 \cdot w1}{Q_a} + b1$$
 And the evaluation is $$\text{eval} = \frac{o \cdot S}{Q_a \cdot Q_b}$$
-The usual values are $Q_a = 255, Q_b = 64, S = 400$. $Q_a$ and $Q_b$ are chosen to fit all the quantized values into 16-bit integers, $S$ is just a constant which makes $\text{eval}$ in reasonable range and comparable with centipawns.
+The usual values are $Q_a = 255, Q_b = 64, S = 400$. $Q_a$ and $Q_b$ are chosen to fit all the quantized values into 16-bit integers, $S$ is just a constant which makes $\text{eval}$ in reasonable range and comparable with centipawns. We lose some precision when doing quantization, but it doesn't affect the evaluation too much to lose playing strength.
 ###### Pseudocode
 ```python
 Qa = 255
