@@ -8,6 +8,7 @@ The problem with this network is that you need to do a forward pass every time y
 ## Basic architecture
 The basic NNUE architecture is $(768 \rightarrow 2N \rightarrow 1)$, where $N$ is the size of the hidden layer. We store $2$ accumulators, each of size $N$.
 
+![[diagramBase.png]]
 ## Updating
 The formula to calculate the value of the $i$-th hidden neuron is:
 $$acc_i = b0_i + \sum_{j=1}^{768} a_j \cdot w0_{ij}$$
