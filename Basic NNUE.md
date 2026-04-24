@@ -8,6 +8,7 @@ The problem with this network is that you need to do a forward pass every time y
 ## Basic architecture
 The basic NNUE architecture is $(768 \rightarrow 2N \rightarrow 1)$, where $N$ is the size of the hidden layer. We store $2$ accumulators, each of size $N$.
 
+![](diagramBase.png)
 ## Updating
 The formula to calculate the value of the $i$-th hidden neuron is:
 $$acc_i = b0_i + \sum_{j=1}^{768} a_j \cdot w0_{ij}$$
@@ -66,7 +67,7 @@ def evaluate(color):
 		L2 = concatenate(acc_black, acc_white)
 		
 	for i in 0..2N-1: #Hidden layer activation
-		L2_act = clamp(L2[i], 0, Qa) ** 2
+		L2_act[i] = clamp(L2[i], 0, Qa) ** 2
 		
 	eval = 0
 	for i in 0..2N-1:
