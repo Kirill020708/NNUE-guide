@@ -1,4 +1,4 @@
-The king is a very important piece on the board. Because of it, the evaluation of a position can depend heavily on king's location. To help the network understand this concept, we do **input buckets**: we choose hidden layer weights and biases based on where the king is located. Generally, you have an array which tells you the bucket number for every square. Example for 4 buckets:
+The king is a very important piece on the board. Because of it, the evaluation of a position can depend heavily on king's location. To help the network understand this concept, we do **input buckets**: we choose hidden layer weights based on where the king is located. Generally, you have an array which tells you the bucket number for every square. Example for 4 buckets:
 ```python
 buckets = [
 	3,3,3,3,3,3,3,3,
