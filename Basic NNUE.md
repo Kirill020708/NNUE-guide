@@ -46,10 +46,10 @@ Let's imagine we have only 1 neuron in all three layers. $w0$, $b0$, $w1$, and $
 The hidden layer neuron value is $x1 = v \cdot w0 + b0$, and activation is $a1 = \text{clamp}(x1, 0, 1)$. Output neuron value is $o = a1 \cdot w1 + b1 = \text{clamp}(v \cdot w0 + b0, 0, 1)^2 \cdot w1 + b1$
 
 When we are saving our trained net, we quantize the weights and biases:
-$w0 \text{*=} Q_a$
-$b0 \text{*=} Q_a$
-$w1 \text{*=} Q_b$
-$b1 \text{*=} Q_a \cdot Q_b$
+$w0 \ast = Q_a$  
+$b0 \ast = Q_a$  
+$w1 \ast = Q_b$  
+$b1 \ast = Q_a \cdot Q_b$  
 And the formula becomes
 $$o = \frac{\text{clamp}(v \cdot w0 + b0, 0, Q_a)^2 \cdot w1}{Q_a} + b1$$
 And the evaluation is $$\text{eval} = \frac{o \cdot S}{Q_a \cdot Q_b}$$
