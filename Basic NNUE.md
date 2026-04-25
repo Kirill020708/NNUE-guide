@@ -40,7 +40,7 @@ We could use floats for calculating the evaluation, but they have two major prob
 Imagine that we want to multiply $a$ and $b$ ($c = a \cdot b$), where $a$ is in the range $[0, 1]$. We could just use floats, but since we are using ints, we do this:
 $a1 = a \cdot Q$
 $c1 = \frac{a1 \cdot b}{Q}$
-which is almost the same as $c$, eliminating the need for floating-point arithmetic.
+where $Q$ is some big integer.  The value of $c1$ is almost the same as $c$, eliminating the need for floating-point arithmetic.
 
 Let's imagine we have only 1 neuron in all three layers. $w0$, $b0$, $w1$, and $b1$ are now numbers instead of vectors. Let $v$ be the input neuron activation.
 The hidden layer neuron value is $x1 = v \cdot w0 + b0$, and activation is $a1 = \text{clamp}(x1, 0, 1)$. Output neuron value is $o = a1 \cdot w1 + b1 = \text{clamp}(v \cdot w0 + b0, 0, 1)^2 \cdot w1 + b1$
