@@ -13,6 +13,8 @@ You only need to quantize the first hidden layer (with the reasons described in 
 | $b1, w2, w3$ | $Q$          |
 | $b2$         | $Q^3$        |
 | $b3$         | $Q^4$        |
+
+
 Just like in the basic NNUE, the accumulators end up fitting into 16 bits (quantized as $Q0$). After activation they get quantized as $Q0^2$. However, when we compute next layer, we need the values of matmul between the activations and $w1$ to fit into 8-bit numbers. To do it, we divide the activations by the least possible power of $2$: $\frac{Q0^2 \cdot Q1}{2^9}<2^{15}$ (we do it with `_mm256_mulhi_epi16` SIMD instruction: $\text{act} =\text{mulHigh16}( \text{shiftLeft16(acc, 7)}, acc)$, where `mulHigh16` is multiplication in 16-bit numbers and keeping the high part, which is effectively doing /= $2^{16}$, so it ends up in $\text{act} =\frac{\text{acc}^2 \cdot 2^7}{2^{16}} = \frac{\text{acc}^2}{2^{9}}$). After this we end up with $\frac{Q0^2 \cdot Q1}{2^9}$ quantization; however, we want $Q$ quantization. To do that, we must multiply our values by $Q \cdot \frac{2^9}{Q0^2 \cdot Q1} \approx \frac{1}{2^8}$, so we just shift the values left by $8$. The rest is easy: we propagate the values further (without any fancy algorithms, just plain matmul with SIMD because $16 \cdot 32$ is small compared to $2N \cdot 16$), ending up with $Q^4$ quantization. Then we multiply the result by $\frac{S}{Q^4}$, and the evaluation is done!
 #### Output buckets
 If you're doing multilayer, you've probably done output buckets, so remember that all weights and biases from $w1$ and $b1$ onward have output buckets.
