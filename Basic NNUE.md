@@ -46,14 +46,14 @@ Let's imagine we have only 1 neuron in all three layers. $w0$, $b0$, $w1$, and $
 The hidden layer neuron value is $x1 = v \cdot w0 + b0$, and activation is $a1 = \text{clamp}(x1, 0, 1)$. Output neuron value is $o = a1 \cdot w1 + b1 = \text{clamp}(v \cdot w0 + b0, 0, 1)^2 \cdot w1 + b1$
 
 When we are saving our trained net, we quantize the weights and biases:
-$w0 \mathrel{*}= Q_a$
-$b0 \mathrel{*}= Q_a$
-$w1 \mathrel{*}= Q_b$
-$b1 \mathrel{*}= Q_a \cdot Q_b$
+$w0 \text{*=} Q_a$
+$b0 \text{*=} Q_a$
+$w1 \text{*=} Q_b$
+$b1 \text{*=} Q_a \cdot Q_b$
 And the formula becomes
 $$o = \frac{\text{clamp}(v \cdot w0 + b0, 0, Q_a)^2 \cdot w1}{Q_a} + b1$$
 And the evaluation is $$\text{eval} = \frac{o \cdot S}{Q_a \cdot Q_b}$$
-The usual values are $Q_a = 255, Q_b = 64, S = 400$. $Q_a$ and $Q_b$ are chosen to fit all the quantized values into 16-bit integers, $S$ is just a constant which scales $\text{eval}$ to a reasonable range, making it comparable with centipawns. We lose some precision when doing quantization, but it doesn't affect the evaluation enough to lose playing strength.
+The usual values are $Q_a = 255, Q_b = 64, S = 400$. The hidden layer activation values are clipped to $Q_a^2 \approx 2^{16}$, so they fit into 16 bits. $S$ is just a constant which scales $\text{eval}$ to a reasonable range, making it comparable with centipawns. We lose some precision when doing quantization, but it doesn't affect the evaluation enough to lose playing strength.
 ###### Pseudocode
 ```python
 Qa = 255
