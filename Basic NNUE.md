@@ -45,7 +45,7 @@ where $Q$ is some big integer.  The value of $c1$ is almost the same as $c$, eli
 Let's imagine we have only 1 neuron in all three layers. $w0$, $b0$, $w1$, and $b1$ are now numbers instead of vectors. Let $v$ be the input neuron activation.
 The hidden layer neuron value is $x1 = v \cdot w0 + b0$, and activation is $a1 = \text{clamp}(x1, 0, 1)$. Output neuron value is $o = a1 \cdot w1 + b1 = \text{clamp}(v \cdot w0 + b0, 0, 1)^2 \cdot w1 + b1$
 
-When we are saving our trained net, we quantize the weights and biases:
+When we are saving our trained net, we quantize the weights and biases:  
 $w0 \ast = Q_a$  
 $b0 \ast = Q_a$  
 $w1 \ast = Q_b$  
