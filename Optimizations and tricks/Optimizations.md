@@ -67,7 +67,7 @@ void update(__m256i x) {
 ```
 We need the `baseIdx` vector because we compute 8 blocks at once. So when we call update() the second time and we get indexes {0, 2, 3}, actually their indexes are {8, 10, 11}:
 
-![](images/sparse.png)
+![](../images/sparse.png)
 
 Then when evaluating instead of doing
 ```c++

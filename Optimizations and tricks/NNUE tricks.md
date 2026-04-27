@@ -14,11 +14,11 @@ for i in 0..N/2-1:
 ```
 (same with nstm_acc).
 
-![](images/pairwise.png)
+![](../images/pairwise.png)
 
 The size of the first hidden layer becomes $N$ instead of $2N$, so we make the inference approximately 2 times faster. We lose some accuracy, but we gain too much speed to care. This technique is usually used with multilayer networks, but you can try it with a single-layer net. For me pairwise didn't gain elo with a first hidden layer of size $512$, but gained with size $1024$.
 
 ## Dual activation
 The 2nd layer in a multilayer network (size $16$) is activated with SCReLU. Instead of this, we double the length this layer's values vector by concatenating it with itself. Then we activate the first half with CReLU and the second half with SCReLU (don't forget to multiply first half's activations by $Q$ to achieve the same quantization as in the second half). This improves network's quality.
 
-![](images/dualact.png)
+![](../images/dualact.png)

@@ -1,6 +1,6 @@
 Instead of using only one hidden layer in our net, we use more. The most common architecture for a multilayer network is $(768 \rightarrow 2N \rightarrow 16 \rightarrow 32 \rightarrow 1)$. The quality of evaluation increases a lot, but we get a big performance hit. To propagate the first hidden layer further, we now need $16$x more time because the number of neurons on the next layer increases $16\times$. However, there is a clever algorithm which allows us to evaluate the net without a considerable performance hit. Every hidden layer's activation function is still SCReLU except the last one (size $32$); its activation function is CReLU.
 
-![](images/multilayer.png)
+![](../images/multilayer.png)
 Just like in output buckets, number of weights doesn't increase a lot, so we don't need more data to train a multilayer net.
 ## The algorithm
 It's described very well in [this](https://aletheiaaaaa.github.io/posts/2025-07-14-dpbusd-explained/) article.
