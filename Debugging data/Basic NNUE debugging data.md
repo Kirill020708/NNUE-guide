@@ -12,7 +12,7 @@ Example net can be found in `net_examples/beans.bin`
 - $Q_a=255, Q_b=64, S=400$
 
 ### File data
-First 16 weights of hidden layer's 32nd neuron connected from input layer (assuming numbering from zero) ($w0_{32}$): `0 0 0 -1 0 0 0 0 10 8 5 12 8 6 -11 4`
+The first 16 weights of the hidden layer's 32nd neuron connected from the input layer (assuming numbering from zero) ($w0_{32}$): `0 0 0 -1 0 0 0 0 10 8 5 12 8 6 -11 4`
 
 First 16 weights of output neuron weights ($w1$): `122 70 -70 -126 -30 -22 -58 -66 37 32 -90 -17 -111 -25 -78 -27`
 
