@@ -8,7 +8,7 @@ The problem with this network is that you need to do a forward pass every time y
 ## Basic architecture
 The basic NNUE architecture is $(768 \rightarrow 2N \rightarrow 1)$, where $N$ is the size of the hidden layer. We store $2$ accumulators, each of size $N$.
 
-![](diagramBase.png)
+![](images/diagramBase.png)
 ## Updating
 The formula to calculate the value of the $i$-th hidden neuron is:
 $$acc_i = b0_i + \sum_{j=1}^{768} a_j \cdot w0_{ij}$$
@@ -82,7 +82,7 @@ def evaluate(color):
 
 ## Implementation tips
 You should filter out all noisy positions (the best move is a capture, the side to move is in check, etc.).
-If you choose some $N$, the minimum number of positions you need to train your net on is about $N$ million (keep in mind that usually about half of the positions are filtered out). In the beginning, you should choose $N=16$ or $N=32$, because it's probably sufficient to outperform your handcrafted evaluation.
+If you choose some $N$, a good rule of thumb is that the minimum number of positions you need to train your net on is about $N$ million (keep in mind that usually about half of the positions are filtered out). In the beginning, you should choose $N=16$ or $N=32$, because it's probably sufficient to outperform your handcrafted evaluation.
 Always test every change (for example, if you generated some new data, **first** you test the same network as before, trained on new data, **and only then** you try to change it (increase N, etc.)). $N$ should be a power of $2$ for SIMD to work.
 
-The best tool to train your nets is [Bullet](https://github.com/jw1912/bullet)  with [ViriFormat](https://crates.io/crates/viriformat) file system. The best way is to code internal datagen that writes data directly into viriformat, but the easier way is to run a lot of games with fastchess/cutechess and save all games into PGN; after that you can use [Pawnocchio](https://github.com/JonathanHallstrom/pawnocchio) chess engine to convert it to ViriFormat file. In Bullet you need to choose Viriformat binpack loader, and it also includes all the filtering.
+The best tool to train your nets is [Bullet](https://github.com/jw1912/bullet)  with [ViriFormat](https://crates.io/crates/viriformat) file system. The best way is to code internal datagen that writes data directly into viriformat, but the easier way is to run a lot of games with fastchess/cutechess and save all games into PGN; after that you can use [Pawnocchio](https://jonathanhallstrom.github.io/viriformat_tools_redirect) chess engine to convert it to ViriFormat file. In Bullet you need to choose Viriformat binpack loader, and it also includes all the filtering.
