@@ -36,7 +36,7 @@ There is another good [article](https://cosmo.tardis.ac/files/2024-08-17-multila
 This technique only works for a multilayer network.
 Because we're using SCReLU for the accumulators' activation, all negative values clamp to $0$, so after the activation a lot of values are $0$. These zeros don't affect the values of the second hidden layer, so we can just skip them when computing it, which gives us a speedup. However, if you just write
 ```c++
-if (act[i] == 0)
+if (activated[i] == 0)
 	continue;
 ```
 you may even slow down the inference because it's quite computationally expensive to compute a condition. Instead of this, we do a clever algorithm, which lets us compute all non-zero activation indexes.

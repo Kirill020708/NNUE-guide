@@ -6,7 +6,7 @@ The basic network is a feed-forward network with $1$ hidden layer. The input lay
 The problem with this network is that you need to do a forward pass every time you evaluate a position, which is very slow. To eliminate that, we use UE — efficient updates. When a move is made, only a few of the input neurons change their value, and we can quickly recalculate the hidden layer. Another problem is that when we need to evaluate the position for black, we must "flip" the board. Because we need to be able to evaluate the position for both colors, we store the calculated hidden layer for both white and black at the same time.
 
 ## Basic architecture
-The basic NNUE architecture is $(768 \rightarrow 2N \rightarrow 1)$, where $N$ is the size of the hidden layer. We store $2$ accumulators, each of size $N$.
+The basic NNUE architecture is $(768 \rightarrow N)\text{x}2 \rightarrow 1$, where $N$ is the size of the hidden layer. We store $2$ accumulators, each of size $N$.
 
 ![](../images/diagramBase.png)
 ## Updating
