@@ -14,7 +14,7 @@ Example net can be found in `net_examples/multibeans.bin`
 - **No input/output buckets**
 
 ### File data
-First $8$ values:
+First $8$ values (when saying $w_i$, I mean the vector of weights connected to the $i$-th neuron from the previous layer):
 
 | Parameter             | Values                                             |
 | --------------------- | -------------------------------------------------- |
@@ -27,8 +27,6 @@ First $8$ values:
 | $b2$                  | `-12382 59442 10176 34484 20167 47785 10864 81807` |
 | $w3$                  | `54 33 -22 -16 -20 -127 20 82`                     |
 | $b3$                  | `525860`                                           |
-
-When saying $w_i$, I mean the vector of weights that are connected to the $i$-th neuron from the previous layer.
 
 ### Intermediate values and activations
 $L_i$ act/val are the first few activations/values of hidden layer number $i$ (assuming that the 1st hidden layer is the layer right after the input layer). `Sum w\o bias` is the value of the output neuron before adding output bias. L2 values are given in $\frac{Q0^2 \cdot Q1}{2^9}$ quantization (before quantizing to $Q$).
