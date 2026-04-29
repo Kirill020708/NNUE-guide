@@ -41,4 +41,4 @@ Output neuron bias($b1$): `825`
 ### Final evaluation
 `startpos`: `78` `kiwipete`: `-116`
 
-Credits to [Ciekce]() for training the net
+Credits to [Ciekce](https://github.com/Ciekce) for training the net
