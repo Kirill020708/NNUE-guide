@@ -3,7 +3,7 @@ There's also a very good [article](https://cosmo.tardis.ac/files/2024-06-01-nnue
 ## Lazy updates
 Because we use a transposition table to store positions' evaluations, we don't need to evaluate some positions. That means that we also don't have to know the accumulators' values. So we can skip some accumulators' updates.
 
-When we want to update our accumulators (when making a move), we can just push the update information (e.g. changed squares) into a stack (or pop when unmaking a move) and mark the current state of the accumulators as "dirty" ("dirty" means that the accumulators in this stack entry are unknown; "clean" means the opposite). When we want to evaluate our position, we need to calculate the accumulators. To do it, we find the last entry with "clean" accumulators and then go through the stack and apply all of the updates we stored (while also saving all the intermediate states because we might need them).  If you have some sort of net refreshing (e.g. mirroring/king buckets), you can also save this info instead of actually recalculating the net, and calculate it only when you actually need it (tip: you can mark the state right before the current one as "clean", because we don't need its accumulators, because we do a full net refresh on current entry anyway).
+When we want to update our accumulators (when making a move), we can just push the update information (e.g. changed squares) into a stack (or pop when unmaking a move) and mark the current state of the accumulators as "dirty" ("dirty" means that the accumulators in this stack entry are unknown; "clean" means the opposite). When we want to evaluate our position, we need to calculate the accumulators. To do it, we find the last entry with "clean" accumulators and then go through the stack and apply all of the updates we stored (while also saving all the intermediate states because we might need them).  If you have some sort of net refreshing (e.g. mirroring/king buckets), you can also save this info instead of actually recalculating the net, and calculate it only when you actually need it (tip: you can mark the state right before the current one as "clean", because we don't need its accumulators, because we do a full accumulator refresh on current entry anyway).
 ###### Pseudocode:
 ```python
 def make_move():
@@ -36,7 +36,7 @@ There is another good [article](https://cosmo.tardis.ac/files/2024-08-17-multila
 This technique only works for a multilayer network.
 Because we're using SCReLU for the accumulators' activation, all negative values clamp to $0$, so after the activation a lot of values are $0$. These zeros don't affect the values of the second hidden layer, so we can just skip them when computing it, which gives us a speedup. However, if you just write
 ```c++
-if (act[i] == 0)
+if (activated[i] == 0)
 	continue;
 ```
 you may even slow down the inference because it's quite computationally expensive to compute a condition. Instead of this, we do a clever algorithm, which lets us compute all non-zero activation indexes.
