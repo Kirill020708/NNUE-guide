@@ -1,11 +1,11 @@
-Instead of using only one hidden layer in our net, we use more. The most common architecture for a multilayer network is $(768 \rightarrow N)\text{x}2 \rightarrow 16 \rightarrow 32 \rightarrow 1$. The quality of evaluation increases a lot, but we get a big performance hit. To propagate the first hidden layer further, we now need $16\times$ more time because the number of neurons on the next layer increases $16\times$. However, there is a clever algorithm which allows us to evaluate the net without a considerable performance hit. Every hidden layer's activation function is still SCReLU except the last one (size $32$); its activation function is CReLU.
+Instead of using only one hidden layer in our net, we use more. The most common architecture for a multilayer network is $(768 \rightarrow N)\text{x}2 \rightarrow 16 \rightarrow 32 \rightarrow 1$. The quality of evaluation increases a lot, but we get a big performance hit. To propagate the first hidden layer further, we now need $16\times$ more time because the number of neurons on the next layer increases $16\times$. However, there is a clever algorithm which allows us to evaluate the net without a considerable performance hit. Every hidden layer's activation function is still SCReLU except the last one (size $32$); its activation function is CReLU (Clipped ReLU), which is just $\text{clamp}(x, 0, 1)$.
 
 ![](../images/multilayer.png)
 Just like in output buckets, number of weights doesn't increase a lot, so we don't need more data to train a multilayer net.
 ## The algorithm
 It's described very well in [this](https://aletheiaaaaa.github.io/posts/2025-07-14-dpbusd-explained/) article.
 ## Quantization
-You only need to quantize the first hidden layer (with the reasons described in Basic NNUE). You can do floats for later layers, but you can get some floating-point inconsistencies (e.g. different bench on different platforms), so I prefer to quantize the whole net. The constants are: $Q0=255, Q1=128, Q=64$.
+You only need to quantize the first hidden layer (with the reasons described in Basic NNUE). You can do floats for later layers, but you can get some floating-point inconsistencies (e.g. different bench on different platforms), so I prefer to quantize the whole net. The constants are: $Q0=255, Q1=128, Q=64$. The quantization of each parameter is:
 
 | Parameter    | Quantization |
 | ------------ | ------------ |

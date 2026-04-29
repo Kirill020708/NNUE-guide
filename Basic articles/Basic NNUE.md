@@ -1,4 +1,4 @@
-It would help a lot if you know about feedforward neural networks and/or SIMD.
+Knowledge of feedforward neural networks and/or SIMD is helpful but not required.
 
 ## NNUE idea
 The basic network is a feed-forward network with $1$ hidden layer. The input layer's size is $768 = 2 \cdot 6 \cdot 64$ (a neuron for every color, every piece, and every square, which is $1$ when the piece is on that square, and $0$ otherwise).
