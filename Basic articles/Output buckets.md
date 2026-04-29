@@ -1,1 +1,5 @@
-The idea is that we can give our network some knowledge about material. To achieve this, we choose output layer weights and biases ($w1$ and $b1$) based on the current number of pieces. The usual formula is $\text{bucket} = [\frac{\text{K - 2}}{4}]$, where $K$ is the number of pieces on the board. This gives us $8$ buckets in total — the minimum number is $[\frac{2-2}{4}] = 0$ and the maximum is $[\frac{32-2}{4}] = 7$. Because the number of parameters does not increase significantly, we don't need more data to do output buckets.
+The idea is that we can give our network some knowledge about material.
+To achieve this, we choose output layer weights and biases ($w1$ and $b1$) based on the current number of pieces.
+The usual formula is $\text{bucket} = [\frac{\text{K - 2}}{4}]$, where $K$ is the number of pieces on the board.
+This gives us $8$ buckets in total — the minimum number is $[\frac{2-2}{4}] = 0$ and the maximum is $[\frac{32-2}{4}] = 7$.
+Because the number of parameters does not increase significantly, we don't need more data to do output buckets.
