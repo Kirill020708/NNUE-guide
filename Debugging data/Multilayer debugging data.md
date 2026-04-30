@@ -31,7 +31,7 @@ First $8$ values:
 When saying $w_i$, I mean the vector of weights that are connected to the $i$-th neuron from the previous layer.
 
 ### Intermediate values and activations
-$L_i$ act/val are the first few activations/values of hidden layer number $i$ (assuming that the 1st hidden layer is the layer right after the input layer). `Sum w\o bias` is the value of the output neuron before adding output bias. L2 values are given before and after quantizing to $Q$.
+$L_i$ act/val are the first few activations/values of hidden layer number $i$ (assuming that the 1st hidden layer is the layer right after the input layer). `Sum w\o bias` is the value of the output neuron before adding output bias. L2 values are given before and after requantizing from $\frac{Q0^2 \cdot Q1}{2^9}$ to $Q$.
 ###### Startpos
 $L_1$ act: `34 2 2 0 2 72 0 0 8 0 11 1 0 17 58 0`
 
