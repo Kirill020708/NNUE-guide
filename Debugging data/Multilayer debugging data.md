@@ -14,7 +14,7 @@ Example net can be found in `net_examples/multibeans.bin`
 - **No input/output buckets**
 
 ### File data
-First $8$ values (when saying $w_i$, I mean the vector of weights connected to the $i$-th neuron from the previous layer):
+First $8$ values:
 
 | Parameter             | Values                                             |
 | --------------------- | -------------------------------------------------- |
@@ -28,12 +28,16 @@ First $8$ values (when saying $w_i$, I mean the vector of weights connected to t
 | $w3$                  | `54 33 -22 -16 -20 -127 20 82`                     |
 | $b3$                  | `525860`                                           |
 
+When saying $w_i$, I mean the vector of weights that are connected to the $i$-th neuron from the previous layer.
+
 ### Intermediate values and activations
-$L_i$ act/val are the first few activations/values of hidden layer number $i$ (assuming that the 1st hidden layer is the layer right after the input layer). `Sum w\o bias` is the value of the output neuron before adding output bias. L2 values are given in $\frac{Q0^2 \cdot Q1}{2^9}$ quantization (before quantizing to $Q$).
+$L_i$ act/val are the first few activations/values of hidden layer number $i$ (assuming that the 1st hidden layer is the layer right after the input layer). `Sum w\o bias` is the value of the output neuron before adding output bias. L2 values are given before and after quantizing to $Q$.
 ###### Startpos
 $L_1$ act: `34 2 2 0 2 72 0 0 8 0 11 1 0 17 58 0`
 
-$L_2$ val: `23 -60 12 43 -26 10 103 -69 8 0 5 8 40 54 23 4`
+$L_2$ val before requantizing (without bias): `5379 -14524 1587 8194 -3663 773 20793 -18305 2517 -1907 -402 97 8823 10048 3859 1937`
+
+$L_2$ val after requantizing (with bias): `23 -60 12 43 -26 10 103 -69 8 0 5 8 40 54 23 4`
 
 $L_2$ act: `529 0 144 1849 0 100 4096 0 64 0 25 64 1600 2916 529 16`
 
@@ -47,7 +51,9 @@ Sum w\o bias: `3843096`
 
 $L_1$ act: `3 1 34 0 0 51 16 0 2 6 55 0 0 34 30 0`
 
-$L_2$ val: `31 -56 16 46 -26 23 91 -86 16 1 9 5 42 59 22 20`
+$L_2$ val before requantizing (without bias): `7672 -13317 2688 9139 -3786 4150 17748 -22667 4429 -1665 557 -570 9310 11303 3613 6034`
+
+$L_2$ val after requantizing (with bias): `31 -56 16 46 -26 23 91 -86 16 1 9 5 42 59 22 20`
 
 $L_2$ act: `961 0 256 2116 0 529 4096 0 256 1 81 25 1764 3481 484 400`
 
