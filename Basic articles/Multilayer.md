@@ -42,7 +42,7 @@ If you're doing multilayer, you've probably done output buckets, so remember tha
 
 ## Permutations
 
-To enable efficient inference, you will have to permute the weights and biases of different layers.
+To enable efficient inference, you will have to permute the weights and biases of different layers so that they are laid out contiguously in memory for the SIMD registers.
 Some of these permutations can be done beforehand, while others will have to be done at build time depending on the target architecture.
 
 ### L0
@@ -74,7 +74,7 @@ The easiest way to do this is to write a script that gets called during built-ti
 You will want to store the current permutation as a flag somewhere in the network if you are modifying the network file in place.
 
 The exact permutation depends on the SIMD width.
-You want to permute `w0` and `b0` along the output dimension.
+You want to permute $w0$ and $b0$ along the output dimension.
 
 AVX2:
 
@@ -105,30 +105,7 @@ You can think of it as the first axis being the bucket index, the second axis be
 
 Note that you can do this permutation (and the permutation for the later layers) when you're exporting the model, as it does not depend on the target architecture.
 
-### L2
+### L2 onwards
 
-Assuming un-transposed bullet export format, we want to go from:
-
-```cpp
-W2[L2_SIZE][NUM_OUTPUT_BUCKETS][L3_SIZE]
-```
-
-to
-
-```cpp
-W2[NUM_OUTPUT_BUCKETS][L2_SIZE][L3_SIZE]
-```
-
-### L3
-
-Assuming un-transposed bullet export format, we want to go from:
-
-```cpp
-W3[L3_SIZE][NUM_OUTPUT_BUCKETS]
-```
-
-to
-
-```cpp
-W3[NUM_OUTPUT_BUCKETS][L3_SIZE]
-```
+There aren't any special permutation rules for the later layers.
+You just want to make sure they are indexed in order of `bucket`, `input`, `output` so that the outputs are layed out contiguously in memory.
