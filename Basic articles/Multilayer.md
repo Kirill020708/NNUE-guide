@@ -23,7 +23,7 @@ The constants are: $Q0=255, Q1=128, Q=64$. The quantization of each parameter is
 | $b3$         | $Q^4$        |
 
 
-Just like in the basic NNUE, the accumulators end up fitting into 16 bits (quantized as $Q0$).
+Just like in the basic NNUE, the accumulators end up fitting into 16 bits (quantized as $Q0$). $Q1$ needs to be $128$ instead of $255$, because in early versions of ARM the SIMD instruction uses signed int8 arithmetic, so you need it to fit into $2^7$.
 After activation they get quantized as $Q0^2$.
 However, when we compute next layer, we need the values of the accumulators' activations values to fit into 8-bit numbers.
 To do it, we divide the activations by the least possible power of $2$: $\frac{Q0^2}{2^9}<2^{7}$; (we do it with `_mm256_mulhi_epi16` SIMD instruction: $\text{act} =\text{mulHigh16}( \text{shiftLeft16(acc, 7)}, acc)$, where `mulHigh16` is multiplication in 16-bit numbers and keeping the high part, which is effectively doing /= $2^{16}$, so it ends up in $\text{act} =\frac{\text{acc}^2 \cdot 2^7}{2^{16}} = \frac{\text{acc}^2}{2^{9}}$).
