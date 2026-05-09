@@ -4,6 +4,7 @@ So, you've decided to implement NNUE for your engine. It's important to start wi
 3. [Mirroring](<Basic articles/Mirroring.md>)
 4. [Input buckets](<Basic articles/Input buckets.md>)
 5. [Multilayer](<Basic articles/Multilayer.md>) (debugging [data](<Debugging data/Multilayer debugging data.md>))
+   
 You can also do different [optimizations](<Optimizations and tricks/Optimizations.md>) and [tricks](<Optimizations and tricks/NNUE tricks.md>).
 
 ###### Useful links:
