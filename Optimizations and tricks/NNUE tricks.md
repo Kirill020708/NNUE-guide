@@ -25,7 +25,7 @@ This technique is usually used with multilayer networks, but you can try it with
 ## Dual activation
 The 2nd layer in a multilayer network (size $16$) is activated with SCReLU.
 Instead of this, we double the length this layer's values vector by concatenating it with itself.
-Then we activate the first half with CReLU and the second half with SCReLU (don't forget to multiply first half's activations by $Q$ to achieve the same quantization as in the second half).
+Then we activate the first half with CReLU and the second half with CSReLU (CSReLU is Clipped Squared ReLU, which is different from SCReLU, CSReLU usually works better in dual activation). Don't forget to multiply the first half's activations by $Q$ to achieve the same quantization as in the second half.
 This improves network's quality.
 
 ![](../images/dualact.png)

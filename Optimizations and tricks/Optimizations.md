@@ -36,7 +36,7 @@ def evaluate():
 ```
 
 ## Sparse matrix multiplication
-There is another good [article](https://cosmo.tardis.ac/files/2024-08-17-multilayer.html#sparse-matrix-multiplication) on the same topic.
+There are another good articles: [article 1](https://cosmo.tardis.ac/files/2024-08-17-multilayer.html#sparse-matrix-multiplication), [article 2](https://rmeguro.com/blogs/sparse-nnue.html) on the same topic.
 
 This technique only works for a multilayer network.
 Because we're using SCReLU for the accumulators' activation, all negative values clamp to $0$, so after the activation a lot of values are $0$.
@@ -99,4 +99,42 @@ for (int i = 0; i < K; i++) {
 for (int i = 0; i < nonzeroCount; i++) {
 	compute_matmul(nonzeroIndexes[i]);
 }
+```
+
+#### Permuting
+Imagine that you have two blocks: the first is $[1, 2, 0, 0]$ and the second is $[0, 0, 0, 3]$. Because both of them contain at least one non-zero element, they both need to be used to compute the matmul. However, if you permute them into $[1, 2, 3, 0]$ and $[0, 0, 0, 0]$, the second block now contains only zeroes, and we don't need to evaluate it. We should precompute the permutation, which will more likely group zero neurons together. To do that, you just evaluate a bunch of positions. For each position we look at the non-zero white accumulator neurons after its activation, and increment these neurons' counters:
+```python
+for i in 0..N-1:
+	if white_act[i] != 0:
+		nonzeroCounter[i] += 1
+```
+Then we sort `nonzeroCounter` in ascending order and take the permutation which puts the neurons into this order. By doing so, the neurons will be sorted in such order, so that the neurons which tend to have zero activation more often will come first. You don't need to compute the permutation for black because chess is symmetric for both colors and the best permutation for black will be the same.
+
+Now that you have found a permutation, you just embed it in the code. When initializing the net, you permute the accumulator's neurons. To do this, you need to permute $w0$, $b0$, and $w1$ according to the found permutation. If you are doing pairwise, you need to account for it.
+
+## Finny tables
+If you've done input buckets, you can use an optimization called Finny tables. Let's imagine that during a search, white king goes from bucket 0 (let's call this position $pos_1$) to bucket 1, and then back to bucket 0 (and this position is $pos_2$). Let's assume we evaluated $pos_1$ earlier, and now we want to evaluate $pos_2$. Changing buckets forces us to fully recompute the accumulators. However, this is a very heavy operation, and we have a method to optimize it. 
+
+$pos_1$ and $pos_2$ probably don't differ a lot from each other, and since we have evaluated $pos_1$'s accumulators, we can efficiently update the accumulators to $pos_2$. We make a structure which stores an accumulator for each possible scenario (this includes the accumulator's color, whether the board is mirrored, and king's bucket). Instead of fully recomputing the accumulator after bucket changes, we grab the accumulator with the same configuration as the current one, look at the differences between the positions, and apply the updates based on those differences:
+
+```python
+
+Table {
+	int accumulator[N]
+	
+	Board lastBoard
+	
+	def update(newBoard):
+		for square in changedSquares(lastBoard, newBoard):
+			accumulator.applyEfficientUpdate(square)
+		
+		lastBoard = newBoard
+}
+
+Table finnyTables[2][2][inputBuckets]
+
+
+def fullAccumRecompute(board, accumColor):
+	finnyTables[accumColor][board.isMirrored(accumColor)][board.bucket(accumColor)].update(board)
+
 ```
