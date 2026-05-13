@@ -108,7 +108,7 @@ for i in 0..N-1:
 	if white_act[i] != 0:
 		nonzeroCounter[i] += 1
 ```
-Then we sort `nonzeroCounter` in ascending order and take the permutation which puts the neurons into this order. By doing so, the neurons will be sorted in such order, so that the neurons which tend to have zero activation more often will come first. You don't need to compute the permutation for black because chess is symmetric for both colors and the best permutation for black will be the same.
+Then we sort `nonzeroCounter` in ascending order and take the permutation which puts the neurons into this order. By doing so, the neurons will be sorted in such order, so that the neurons which tend to have zero activation more often will come first. You don't need to compute the permutation for black because chess is symmetric for both colors and the best permutation for black will be the same. There can be other ways to find the permutation, but they usually don't produce a meaningful speedup.
 
 Now that you have found a permutation, you just embed it in the code. When initializing the net, you permute the accumulator's neurons. To do this, you need to permute $w0$, $b0$, and $w1$ according to the found permutation. If you are doing pairwise, you need to account for it.
 
@@ -138,3 +138,5 @@ def fullAccumRecompute(board, accumColor):
 	finnyTables[accumColor][board.isMirrored(accumColor)][board.bucket(accumColor)].update(board)
 
 ```
+
+Note that you don't need to copy the full board, all you need is bitboards that encode the pieces like `whitePieces`, `kings`, `queens` etc.
