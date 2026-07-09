@@ -7,32 +7,53 @@ Example net can be found in `net_examples/multibeans.bin`
 `kiwipete`: `r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1`
 
 ### Network parameters
-- Hidden layer size = 64 (therefore $N=32$)
-- activation is SCReLU (CReLU for last layer)
+- Architecture: `(768hm->64)x2->(16->32->1)`
+  - No input/output buckets
+  - Mirroring enabled
+  - No pairwise multiplication
 - $Q0=255, Q1=128, Q=64, S=400$
-- **Mirroring enabled**
-- **No input/output buckets**
+- SCReLU activation for first two layers, CReLU for last layer
 
 ### File data
+Here are the layers and their memory layout.
+Note that the layout is the same as what you would get from bullet without transpose.
+
+```cpp
+int16_t w0[768][64];
+int16_t b0[64];
+int8_t  w1[2 * 64][16];
+int32_t b1[16];
+int32_t w2[16][32];
+int32_t b2[32];
+int32_t w3[32];
+int32_t b3;
+```
+
 First $8$ values:
 
 | Parameter             | Values                                             |
 | --------------------- | -------------------------------------------------- |
-| $w0_{32}$             | `-3 2 -9 3 -3 -2 19 -8`                            |
-| $b0$                  | `-48 88 69 12 26 36 81 127`                        |
-| $w1_8$ (untransposed) | `4 -9 21 40 11 -5 11 -21`                          |
-| $w1_8$ (transposed)   | `-17 7 2 -12 -11 -11 -4 -1`                        |
-| $b1$                  | `2 -3 6 11 -11 7 22 3`                             |
-| $w2_8$                | `11 -6 7 -10 -25 -2 -17 31`                        |
-| $b2$                  | `-12382 59442 10176 34484 20167 47785 10864 81807` |
-| $w3$                  | `54 33 -22 -16 -20 -127 20 82`                     |
-| $b3$                  | `525860`                                           |
+| `w0[:8][32]`          | `-3 2 -9 3 -3 -2 19 -8`                            |
+| `b0[:8]`              | `-48 88 69 12 26 36 81 127`                        |
+| `w1[:8][8]`           | `4 -9 21 40 11 -5 11 -21`                          |
+| `b1[:8]`              | `2 -3 6 11 -11 7 22 3`                             |
+| `w2[:8][8]`           | `11 -6 7 -10 -25 -2 -17 31`                        |
+| `b2[:8]`              | `-12382 59442 10176 34484 20167 47785 10864 81807` |
+| `w3[:8]`              | `54 33 -22 -16 -20 -127 20 82`                     |
+| `b3`                  | `525860`                                           |
 
-When saying $w_i$, I mean the vector of weights that are connected to the $i$-th neuron from the previous layer.
+Note that after permuting `w1` according to the [Multilayer guide](<Basic articles/Multilayer.md>), you should get this instead:
+
+```cpp
+int8_t w1[2 * 64 / 4][16 * 4];  // w1[:8][8] = 14 8 34 -4 -30 -6 26 47
+```
 
 ### Intermediate values and activations
+
 $L_i$ act/val are the first few activations/values of hidden layer number $i$ (assuming that the 1st hidden layer is the layer right after the input layer). `Sum w\o bias` is the value of the output neuron before adding output bias. L2 values are given before and after requantizing from $\frac{Q0^2 \cdot Q1}{2^9}$ to $Q$.
+
 ###### Startpos
+
 $L_1$ act: `34 2 2 0 2 72 0 0 8 0 11 1 0 17 58 0`
 
 $L_2$ val before requantizing (without bias): `5379 -14524 1587 8194 -3663 773 20793 -18305 2517 -1907 -402 97 8823 10048 3859 1937`
