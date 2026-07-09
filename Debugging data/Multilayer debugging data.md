@@ -45,7 +45,7 @@ First $8$ values:
 Note that after permuting `w1` according to the [Multilayer guide](<Basic articles/Multilayer.md>), you should get this instead:
 
 ```cpp
-int8_t w1[2 * 64 / 4][16 * 4];  // w1[:8][8] = 10 5 -9 -6 -8 -4 14 21
+int8_t w1[2 * 64 / 4][16 * 4];  // w1[:8][8] = 14 8 34 -4 -30 -6 26 47
 ```
 
 ### Intermediate values and activations
