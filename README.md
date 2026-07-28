@@ -2,7 +2,7 @@ A guide to neural networks for chess engines (NNUE). You should probably start r
 
 ### Authors
 
-[Me](https://github.com/Kirill020708), author of [Simpler](https://github.com/Kirill020708/Simpler) chess engine \
+[Me](https://github.com/Kirill020708), author of [SSSimpler](https://github.com/Kirill020708/SSSimpler) chess engine \
 [Jonathan Hallström](https://github.com/JonathanHallstrom), author of [Pawnocchio](https://github.com/JonathanHallstrom/pawnocchio) chess engine \
 [Rei Meguro](https://github.com/Orbital-Web), author of [Raphael](https://github.com/Orbital-Web/Raphael)
 
