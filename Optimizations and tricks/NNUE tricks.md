@@ -1,6 +1,6 @@
 ## Pairwise multiplication
 
-There is another good [article](https://cosmo.tardis.ac/files/2024-08-17-multilayer.html#pairwise-multiplication) on this topic.
+There is another good [article](https://asteri.sm/files/2024-08-17-multilayer.html#pairwise-multiplication) on this topic.
 
 Generally, when activating an accumulator of size $N$, you end up with an activation vector of size $N$.
 However, there is a trick to reduce it.
