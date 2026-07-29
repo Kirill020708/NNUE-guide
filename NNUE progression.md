@@ -9,7 +9,7 @@ You can also do different [optimizations](<Optimizations and tricks/Optimization
 
 ###### Useful links:
 - [Bullet](https://github.com/jw1912/bullet/blob/main/docs/0-contents.md) — an amazing NNUE trainer by [jw1912](https://github.com/jw1912)
-- [Website](https://cosmo.tardis.ac/index.html) of [Cosmo Bobak](https://github.com/cosmobobak)
+- [Website](https://asteri.sm) of [Cosmo Bobak](https://github.com/cosmobobak)
 - Multilayer net inference [explanation](https://aletheiaaaaa.github.io/posts/2025-07-14-dpbusd-explained/) by [Aletheiaaaaa](https://github.com/aletheiaaaaa)
 
 You can always ask for help in [Alpha-Beta](https://discord.gg/t3aX6XkPaV) or [Stockfish](https://discord.gg/GWDRS3kU6R) Discord servers.
