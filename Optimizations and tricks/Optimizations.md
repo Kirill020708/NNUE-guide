@@ -1,4 +1,4 @@
-There's also a very good [article](https://cosmo.tardis.ac/files/2024-06-01-nnue.html) about different optimizations.
+There's also a very good [article](https://asteri.sm/files/2024-06-01-nnue.html) about different optimizations.
 
 ## Lazy updates
 Because we use a transposition table to store positions' evaluations, we don't need to evaluate some positions.
@@ -36,7 +36,7 @@ def evaluate():
 ```
 
 ## Sparse matrix multiplication
-There are another good articles: [article 1](https://cosmo.tardis.ac/files/2024-08-17-multilayer.html#sparse-matrix-multiplication), [article 2](https://rmeguro.com/blogs/sparse-nnue.html) on the same topic.
+There are another good articles: [article 1](https://asteri.sm/files/2024-08-17-multilayer.html#sparse-matrix-multiplication), [article 2](https://rmeguro.com/blogs/sparse-nnue.html) on the same topic.
 
 This technique only works for a multilayer network.
 Because we're using SCReLU for the accumulators' activation, all negative values clamp to $0$, so after the activation a lot of values are $0$.
